@@ -1,0 +1,686 @@
+<!doctype html>
+<html class="landing" lang="en" manifest="cache.appcache">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ABOUZAIN أبوزين—ps4 14 </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      :root { 
+        --bg: #0a0603;
+        --panel: rgba(18, 12, 8, 0.92);
+        --sunk: rgba(10, 6, 4, 0.96);
+        --line: rgba(210, 160, 90, 0.35);
+        --fg: #e2d2b8;
+        --bright: #fff5e6;
+        --dim: #b8976d;
+        --faint: #6e5538;
+        --ok: #7fd0a0;
+        --bad: #d08a7f;
+        --warn: #d8c07f;
+        --sans: "Segoe UI", system-ui, sans-serif;
+        --mono: Consolas, "DejaVu Sans Mono", monospace;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0; padding: 0;
+        width: 100%; height: 100%;
+        background: var(--bg);
+        color: var(--fg);
+        font: 15px/1.45 var(--sans);
+        overflow: hidden;
+      }
+      #stage { position: fixed; inset: 0; display: block; z-index: 1; pointer-events: none; }
+
+      /* رأس الصفحة العلوي الفخم */
+      #brand {
+        position: relative;
+        z-index: 10;
+        padding: 12px 10px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(10, 6, 3, 0.88);
+        backdrop-filter: blur(6px);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .brand-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: var(--warn);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-shadow: 0 0 8px rgba(216, 192, 127, 0.5);
+      }
+
+      .whatsapp-icon {
+        width: 18px;
+        height: 18px;
+        fill: #d4af37;
+        filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.8));
+        vertical-align: middle;
+      }
+
+      #brand b {
+        color: var(--bright);
+        font-family: 'Cinzel', serif;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-shadow: 0 0 12px rgba(230, 180, 90, 0.6);
+      }
+
+      .shell {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        min-height: calc(100vh - 110px);
+        padding-bottom: 25px;
+      }
+
+      .meme { display: none; }
+
+      .panel {
+        width: 92%;
+        max-width: 820px;
+        background: var(--panel);
+        backdrop-filter: blur(10px);
+        padding: 14px 20px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 22px rgba(230, 180, 90, 0.2);
+        text-align: center;
+      }
+
+      .shop-info {
+        margin: 0 0 10px;
+        color: var(--bright);
+        font-family: 'Amiri', serif;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-shadow: 0 0 6px rgba(216, 192, 127, 0.4);
+        border-bottom: 1px dashed var(--line);
+        padding-bottom: 8px;
+      }
+
+      .pick {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 0;
+      }
+
+      .opt {
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 0;
+        padding: 6px 12px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--sunk);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .opt:hover {
+        border-color: var(--bright);
+        background: rgba(230, 180, 90, 0.08);
+      }
+      .opt input {
+        margin: 0 6px 0 0;
+        vertical-align: middle;
+        accent-color: var(--warn);
+      }
+      .opt span {
+        vertical-align: middle;
+        color: var(--bright);
+        font-weight: 500;
+        font-size: 13px;
+      }
+      .opt-auto {
+        margin-top: 0;
+        border-style: dashed;
+        background: transparent;
+      }
+
+      .btn {
+        display: inline-block;
+        width: auto;
+        min-width: 100px;
+        margin-top: 0;
+        padding: 0.5em 1em;
+        border: 1px solid var(--warn);
+        border-radius: 6px;
+        background: rgba(216, 192, 127, 0.2);
+        color: var(--bright);
+        font: 700 13px/1 var(--sans);
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(216, 192, 127, 0.3);
+        text-transform: uppercase;
+        transition: all 0.2s ease;
+      }
+      .btn:hover, .btn:focus {
+        background: var(--warn);
+        color: #0a0603;
+        box-shadow: 0 0 18px rgba(216, 192, 127, 0.7);
+        outline: none;
+      }
+
+      .count {
+        width: 100%;
+        margin: 4px 0 0;
+        min-height: 1em;
+        color: var(--warn);
+        font: 11px/1.2 var(--mono);
+        text-align: center;
+      }
+
+      /* الشريط السفلي العتيق المزخرف في منتصف أسفل الصفحة */
+      .blessing-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 25;
+        padding: 8px 15px;
+        background: rgba(10, 6, 3, 0.94);
+        border-top: 1px solid var(--line);
+        text-align: center;
+        font-family: 'Amiri', serif;
+        font-size: 14px;
+        color: var(--warn);
+        letter-spacing: 0.08em;
+        text-shadow: 0 0 8px rgba(216, 192, 127, 0.6);
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.8);
+      }
+
+      .byline {
+        position: fixed;
+        bottom: 8px;
+        left: 12px;
+        z-index: 30;
+        margin: 0;
+        color: var(--faint);
+        font: 11px/1 var(--mono);
+        letter-spacing: 0.06em;
+      }
+    </style>
+  </head>
+  <body>
+
+    <canvas id="stage"></canvas>
+
+    <div id="brand">
+      <div class="brand-top">
+        <span>أبوزين 01279227123</span>
+        <svg class="whatsapp-icon" viewBox="0 0 24 24">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+      </div>
+      <b>Welcome To AbouZaiN World</b>
+    </div>
+
+    <div class="shell">
+      <main class="panel">
+        <div class="shop-info">أبوزين لصيانه أجهزة البلايستيشن والدراعات وتعديل وتنزيل الالعاب 4 و 5 البحيره/ رشيد بجوار ميدان الساعه</div>
+        <p class="lede">PS4 firmware 12.00 &ndash; 14.00 <span class="soon">&middot; 14.02 soon</span></p>
+
+        <form class="pick" id="pick">
+          <label class="opt">
+            <input type="radio" name="payload" value="hen" />
+            <span>ps4-hen</span>
+          </label>
+          <label class="opt">
+            <input type="radio" name="payload" value="goldhen" checked />
+            <span>GoldHEN</span>
+          </label>
+
+          <label class="opt opt-auto">
+            <input type="checkbox" id="auto" checked />
+            <span>autostart</span>
+          </label>
+
+          <button class="btn" type="submit">start</button>
+          <p class="count" id="count"></p>
+          <p class="count" id="cache" aria-live="polite"></p>
+        </form>
+      </main>
+    </div>
+
+    <!-- الشريط السفلي المزخرف بالصلاة على النبي -->
+    <div class="blessing-bar">
+      صلي علي حبيبك النبي صل اللهم عليه وعلى اله واصاحبه اجمعين وسلم ❤️
+    </div>
+
+    <p class="byline">byأبوزين</p>
+
+    <script>
+    (() => {
+      const canvas = document.getElementById('stage');
+      const ctx = canvas.getContext('2d');
+      let W, H, dpr, CX, CY;
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+        W = window.innerWidth;
+        H = window.innerHeight;
+        CX = W / 2;
+        CY = H * 0.38; // رفع المنتصف ليتناسب مع الشريط السفلي الجديد
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      const FONT_FAMILY = "'Cinzel', 'Times New Roman', serif";
+      const PERF_MODE = true;
+      const STEP_SCALE = PERF_MODE ? 1.8 : 1;
+      const DUST_COUNT = PERF_MODE ? 55 : 150;
+      const MAX_DPR = PERF_MODE ? 1 : 2;
+
+      function sampleAlphaPoints(drawFn, step) {
+        const off = document.createElement('canvas');
+        off.width = W; off.height = H;
+        const octx = off.getContext('2d');
+        drawFn(octx);
+        const img = octx.getImageData(0, 0, W, H).data;
+        const points = [];
+        for (let y = 0; y < H; y += step) {
+          for (let x = 0; x < W; x += step) {
+            if (img[(y * W + x) * 4 + 3] > 120) points.push({ x, y });
+          }
+        }
+        return points;
+      }
+
+      function drawWing(octx, originX, originY, dir, u) {
+        const FEATHERS = 9;
+        for (let i = 0; i < FEATHERS; i++) {
+          const frac = i / (FEATHERS - 1);
+          const angleDeg = 8 + (-48 - 8) * frac;
+          const angle = angleDeg * Math.PI / 180;
+          const length = u * (0.95 + 1.85 * frac);
+          const width = u * (0.62 - 0.3 * frac);
+
+          const tipX = originX + dir * Math.cos(angle) * length;
+          const tipY = originY + Math.sin(angle) * length;
+
+          const perp = angle + Math.PI / 2;
+          const cx1 = (originX + tipX) / 2 + Math.cos(perp) * width * 0.5;
+          const cy1 = (originY + tipY) / 2 + Math.sin(perp) * width * 0.5;
+          const cx2 = (originX + tipX) / 2 - Math.cos(perp) * width * 0.5;
+          const cy2 = (originY + tipY) / 2 - Math.sin(perp) * width * 0.5;
+
+          octx.beginPath();
+          octx.moveTo(originX, originY);
+          octx.quadraticCurveTo(cx1, cy1, tipX, tipY);
+          octx.quadraticCurveTo(cx2, cy2, originX, originY);
+          octx.closePath();
+          octx.fill();
+        }
+      }
+
+      let pyramidPts = [];
+      let sunPts = [];
+      let sunRestCenter = { x: 0, y: 0 };
+      let sunHiddenY = 0;
+      let sunRadius = 0;
+      let nameWingPts = [];
+      let emblemCenter = { x: 0, y: 0 };
+
+      const logoImg = new Image();
+      logoImg.src = 'logo.png';
+      let logoLoaded = false;
+      logoImg.onload = () => { logoLoaded = true; };
+
+      function buildTargets() {
+        const u = Math.min(W, H) * 0.095;
+        const baseY = CY + u * 1.1;
+
+        const pyramids = [
+          { cx: CX - u * 1.9, halfW: u * 0.95, height: u * 1.35 },
+          { cx: CX,           halfW: u * 1.35, height: u * 2.05 },
+          { cx: CX + u * 1.85, halfW: u * 0.7, height: u * 1.0 },
+        ];
+
+        const step = Math.max(2, Math.floor((u / 16) * STEP_SCALE));
+        pyramidPts = sampleAlphaPoints(octx => {
+          octx.fillStyle = '#fff';
+          for (const p of pyramids) {
+            octx.beginPath();
+            octx.moveTo(p.cx - p.halfW, baseY);
+            octx.lineTo(p.cx + p.halfW, baseY);
+            octx.lineTo(p.cx, baseY - p.height);
+            octx.closePath();
+            octx.fill();
+          }
+        }, step);
+
+        sunRadius = u * 1.05;
+        sunRestCenter = { x: CX, y: baseY - pyramids[1].height - sunRadius * 1.1 };
+        sunHiddenY = baseY - sunRadius * 0.15;
+
+        const sunStep = Math.max(2, Math.floor((sunRadius / 20) * STEP_SCALE));
+        const rawSun = sampleAlphaPoints(octx => {
+          octx.fillStyle = '#fff';
+          octx.beginPath();
+          octx.arc(sunRestCenter.x, sunRestCenter.y, sunRadius * 0.8, 0, Math.PI * 2);
+          octx.fill();
+        }, sunStep);
+        sunPts = rawSun.map(p => ({ dx: p.x - sunRestCenter.x, dy: p.y - sunRestCenter.y }));
+
+        const nameFontSize = u * 1.0;
+        const nameY = baseY + u * 0.95;
+
+        const measureCanvas = document.createElement('canvas');
+        const mctx = measureCanvas.getContext('2d');
+        mctx.font = `700 ${nameFontSize}px ${FONT_FAMILY}`;
+        const nameHalfWidth = mctx.measureText('ABOUZAIN').width / 2;
+
+        emblemCenter = { x: CX, y: nameY };
+
+        const nameStep = Math.max(2, Math.floor((nameFontSize / 60) * STEP_SCALE));
+        const rawShape = sampleAlphaPoints(octx => {
+          octx.fillStyle = '#fff';
+          octx.font = `700 ${nameFontSize}px ${FONT_FAMILY}`;
+          octx.textAlign = 'center';
+          octx.textBaseline = 'middle';
+          octx.fillText('ABOUZAIN', CX, nameY);
+
+          const shoulderGap = u * 0.25;
+          drawWing(octx, CX + nameHalfWidth + shoulderGap, nameY - u * 0.1, 1, u);
+          drawWing(octx, CX - nameHalfWidth - shoulderGap, nameY - u * 0.1, -1, u);
+        }, nameStep);
+
+        nameWingPts = rawShape.map(p => ({ dx: p.x - emblemCenter.x, dy: p.y - emblemCenter.y }));
+      }
+
+      let grains = [];
+      let dust = [];
+      let startTime = 0;
+      let settled = false;
+      let settleTime = 0;
+
+      const VORTEX_DURATION = 1.5;
+      const SETTLE_DURATION = 1.25;
+      const MAX_PEEL_DELAY = 1.0;
+
+      const HUE_BUCKETS = 6;
+      let batches = { pyramid: [], sun: [], emblem: [] };
+
+      function buildBatches() {
+        batches = { pyramid: [], sun: [], emblem: [] };
+        for (const kind of Object.keys(batches)) {
+          batches[kind] = Array.from({ length: HUE_BUCKETS }, () => []);
+        }
+        for (const g of grains) {
+          const list = batches[g.kind];
+          if (!list) continue;
+          const b = Math.min(HUE_BUCKETS - 1, Math.floor(g.hueShift * HUE_BUCKETS));
+          list[b].push(g);
+        }
+      }
+
+      function vortexFields() {
+        return {
+          vortexRadius: 100 + Math.random() * Math.min(W, H) * 0.45,
+          vortexAngle: Math.random() * Math.PI * 2,
+          vortexSpeed: (0.6 + Math.random() * 1.0) * (Math.random() < 0.5 ? 1 : -1),
+          peelDelay: Math.random() * MAX_PEEL_DELAY,
+        };
+      }
+
+      function buildGrains() {
+        const pyramidGrains = pyramidPts.map(p => ({
+          kind: 'pyramid', baseX: p.x, baseY: p.y,
+          ...vortexFields(), size: 1.0 + Math.random() * 1.5, hueShift: Math.random(),
+        }));
+
+        const sunGrains = sunPts.map(p => ({
+          kind: 'sun', dx: p.dx, dy: p.dy,
+          ...vortexFields(), size: 1.0 + Math.random() * 1.6, hueShift: Math.random(),
+        }));
+
+        const emblemGrains = nameWingPts.map(p => ({
+          kind: 'emblem', dx: p.dx, dy: p.dy,
+          ...vortexFields(), size: 0.9 + Math.random() * 1.3, hueShift: Math.random(),
+        }));
+
+        grains = pyramidGrains.concat(sunGrains, emblemGrains);
+        buildBatches();
+      }
+
+      function buildDust(count) {
+        dust = Array.from({ length: count }, () => ({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 6, vy: (Math.random() - 0.5) * 6,
+          size: 0.5 + Math.random() * 1.1,
+          alpha: 0.07 + Math.random() * 0.12,
+        }));
+      }
+
+      function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
+      function easeInCubic(x) { return x * x * x; }
+      function easeInOutCubic(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+      function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+      function pyramidColor(hueShift, alpha) {
+        const r = Math.round(170 + hueShift * 60), g = Math.round(120 + hueShift * 70), b = Math.round(60 + hueShift * 50);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+      function sunColor(hueShift, alpha) {
+        const r = Math.round(235 + hueShift * 20), g = Math.round(140 + hueShift * 90), b = Math.round(30 + hueShift * 60);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+      function emblemColor(hueShift, alpha) {
+        const r = Math.round(210 + hueShift * 45), g = Math.round(165 + hueShift * 80), b = Math.round(60 + hueShift * 85);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+
+      const RISE = 6.5, PULSE = 1.1, HOLD = 9, SET = 5, PAUSE = 1.5;
+      const CYCLE_TOTAL = RISE + HOLD + SET + PAUSE;
+
+      function sunPhase(cycleT) {
+        if (cycleT < RISE) {
+          const p = easeOutCubic(cycleT / RISE);
+          return { y: sunHiddenY + (sunRestCenter.y - sunHiddenY) * p, visible: p, pulseBoost: 0 };
+        }
+        const afterRise = cycleT - RISE;
+        const pulseBoost = afterRise < PULSE ? (1 - afterRise / PULSE) : 0;
+        if (afterRise < HOLD) {
+          return { y: sunRestCenter.y, visible: 1, pulseBoost };
+        }
+        const settingT = afterRise - HOLD;
+        if (settingT < SET) {
+          const p = easeInCubic(settingT / SET);
+          return { y: sunRestCenter.y + (sunHiddenY - sunRestCenter.y) * p, visible: 1 - p, pulseBoost: 0 };
+        }
+        return { y: sunHiddenY, visible: 0, pulseBoost: 0 };
+      }
+
+      function bucketCenter(b) { return (b + 0.5) / HUE_BUCKETS; }
+
+      function drawBatched(sunScale, sunAlphaScale, sun, namePulse) {
+        for (let b = 0; b < HUE_BUCKETS; b++) {
+          const list = batches.pyramid[b];
+          if (!list.length) continue;
+          ctx.beginPath();
+          for (const g of list) ctx.moveTo(g.baseX + g.size, g.baseY), ctx.arc(g.baseX, g.baseY, g.size, 0, Math.PI * 2);
+          ctx.fillStyle = pyramidColor(bucketCenter(b), 1);
+          ctx.fill();
+        }
+
+        if (logoLoaded && sunAlphaScale > 0.05) {
+          ctx.save();
+          ctx.globalAlpha = sunAlphaScale;
+          const sz = sunRadius * 2.3 * sunScale;
+          ctx.drawImage(logoImg, sunRestCenter.x - sz / 2, sun.y - sz / 2, sz, sz);
+          ctx.restore();
+        } else {
+          for (let b = 0; b < HUE_BUCKETS; b++) {
+            const list = batches.sun[b];
+            if (!list.length) continue;
+            ctx.beginPath();
+            for (const g of list) {
+              const x = sunRestCenter.x + g.dx * sunScale;
+              const y = sun.y + g.dy * sunScale;
+              const s = g.size * (1 + sun.pulseBoost * 0.5);
+              ctx.moveTo(x + s, y);
+              ctx.arc(x, y, s, 0, Math.PI * 2);
+            }
+            ctx.fillStyle = sunColor(bucketCenter(b), sunAlphaScale);
+            ctx.fill();
+          }
+        }
+
+        for (let b = 0; b < HUE_BUCKETS; b++) {
+          const list = batches.emblem[b];
+          if (!list.length) continue;
+          ctx.beginPath();
+          for (const g of list) {
+            const x = emblemCenter.x + g.dx * namePulse;
+            const y = emblemCenter.y + g.dy * namePulse;
+            ctx.moveTo(x + g.size, y);
+            ctx.arc(x, y, g.size, 0, Math.PI * 2);
+          }
+          ctx.fillStyle = emblemColor(bucketCenter(b), 1);
+          ctx.fill();
+        }
+      }
+
+      function draw(now) {
+        const t = (now - startTime) / 1000;
+
+        ctx.fillStyle = 'rgba(10, 6, 3, 0.16)';
+        ctx.fillRect(0, 0, W, H);
+
+        for (const d of dust) {
+          d.x += d.vx * 0.016; d.y += d.vy * 0.016;
+          if (d.x < 0) d.x += W; if (d.x > W) d.x -= W;
+          if (d.y < 0) d.y += H; if (d.y > H) d.y -= H;
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(230, 190, 120, ${d.alpha})`;
+          ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        const cycleT = settled ? (t - settleTime) % CYCLE_TOTAL : 0;
+        const sun = sunPhase(cycleT);
+        const sunBreath = Math.sin(t * 1.3) * 0.06;
+        const sunScale = 1 + sunBreath + sun.pulseBoost * 0.4;
+        const sunAlphaScale = clamp(sun.visible, 0.12, 1);
+
+        const namePulse = 1 + Math.sin(t * 1.6) * 0.05;
+
+        let allSettled = true;
+
+        if (!settled) {
+          for (const g of grains) {
+            let x, y, alpha, size = g.size, colorFn = pyramidColor;
+            const peelStart = VORTEX_DURATION + g.peelDelay;
+
+            if (t < peelStart) {
+              const angle = g.vortexAngle + g.vortexSpeed * t;
+              const wob = g.vortexRadius * (1 - 0.15 * Math.sin(t * 2 + g.vortexAngle));
+              x = CX + Math.cos(angle) * wob;
+              y = CY + Math.sin(angle) * wob * 0.55;
+              alpha = 0.5;
+              allSettled = false;
+            } else {
+              const localT = Math.min(1, (t - peelStart) / SETTLE_DURATION);
+              if (localT < 1) allSettled = false;
+              const eased = easeInOutCubic(localT);
+
+              let tx, ty, alphaMul = 1;
+              if (g.kind === 'pyramid') {
+                tx = g.baseX; ty = g.baseY; colorFn = pyramidColor;
+              } else if (g.kind === 'sun') {
+                tx = sunRestCenter.x + g.dx * sunScale;
+                ty = sun.y + g.dy * sunScale;
+                colorFn = sunColor;
+                alphaMul = sunAlphaScale;
+                size = g.size * (1 + sun.pulseBoost * 0.5);
+              } else {
+                tx = emblemCenter.x + g.dx * namePulse;
+                ty = emblemCenter.y + g.dy * namePulse;
+                colorFn = emblemColor;
+              }
+
+              const vortexAngleAtPeel = g.vortexAngle + g.vortexSpeed * peelStart;
+              const curAngle = vortexAngleAtPeel + g.vortexSpeed * localT * (1 - eased) * 2;
+              const curRadius = g.vortexRadius * (1 - eased);
+              const vx = CX + Math.cos(curAngle) * curRadius;
+              const vy = CY + Math.sin(curAngle) * curRadius * 0.55;
+
+              x = vx + (tx - vx) * eased;
+              y = vy + (ty - vy) * eased;
+              alpha = (0.5 + eased * 0.5) * alphaMul;
+            }
+
+            ctx.beginPath();
+            ctx.fillStyle = colorFn(g.hueShift, alpha);
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          if (allSettled) { settled = true; settleTime = t; }
+        } else {
+          drawBatched(sunScale, sunAlphaScale, sun, namePulse);
+        }
+
+        if (settled) {
+          const glowT = Math.min(1, (t - settleTime) / 1.2);
+          ctx.save();
+          ctx.globalCompositeOperation = 'screen';
+          const sunGlowStrength = (0.22 + sun.pulseBoost * 0.55) * sunAlphaScale * glowT;
+          const grad = ctx.createRadialGradient(sunRestCenter.x, sun.y, 0, sunRestCenter.x, sun.y, Math.max(W, H) * 0.3);
+          grad.addColorStop(0, `rgba(255, 170, 60, ${sunGlowStrength})`);
+          grad.addColorStop(1, 'rgba(255, 170, 60, 0)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, W, H);
+
+          const nameGlow = ctx.createRadialGradient(emblemCenter.x, emblemCenter.y, 0, emblemCenter.x, emblemCenter.y, Math.max(W, H) * 0.22);
+          nameGlow.addColorStop(0, `rgba(230, 180, 90, ${0.1 * glowT})`);
+          nameGlow.addColorStop(1, 'rgba(230, 180, 90, 0)');
+          ctx.fillStyle = nameGlow;
+          ctx.fillRect(0, 0, W, H);
+          ctx.restore();
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      function start() {
+        ctx.fillStyle = '#0a0603';
+        ctx.fillRect(0, 0, W, H);
+        buildTargets();
+        buildGrains();
+        buildDust(DUST_COUNT);
+        settled = false;
+        startTime = performance.now();
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', () => { resize(); start(); });
+      resize();
+      start();
+    })();
+    </script>
+    <script src="launch.js"></script>
+  </body>
+</html>
